@@ -1,0 +1,42 @@
+---
+title: "Presentation Summary"
+author: "Charles Sheets"
+date: "September 15, 2016"
+output: html_document
+---
+
+
+```{r }
+srs <- read.csv("F:/Blizzard/ACSR-DeformityDatabase/Baseline data updated with correct SRS.csv")
+library(xtable)
+xtable(summary(srs[srs$OpStatus == "Operative",(3:17)]))
+```
+names(srs)[2] <- "OpStatus"
+library(psych)
+describeBy(srs[,c(26,28,37,35,38)],srs$OpStatus)
+library(corrplot)
+a <- cor(srs[,c(14:16,52, 26,28,37,35,38)], use = 'complete.obs')
+rownames(a) <- c('PCS','MCS','ODI','SRS','Coronal balance','Pelvic obiquity','Pelvic indicence','Sag Balance (lumbar)','Sag balance (total)')
+colnames(a) <- rownames(a)
+corrplot.mixed(a, lower = 'number', upper = 'ellipse', tl.cex = 1, tl.pos = 'lt', main = 'Baseline correlations')
+
+b <- cor(srs[,c(39,59,41,42,44,43,45)], use = 'complete.obs')
+rownames(b)
+rownames(b) <- c('ODI','SRS','Pelvic obiquity','Coronal balance','Pelvic indicence','Sag Balance (lumbar)','Sag balance (total)')
+colnames(b) <- rownames(b)
+corrplot.mixed(mat.cor, lower = 'number', upper = 'ellipse', tl.cex = 1, tl.pos = 'lt', main = 'Follow-up correlations')
+cor(b, use = 'complete.obs')
+
+
+col.list <- c(39,59,60,61,41,42,44,43,45)
+mat.cor <- matrix(NA,9,9)
+for (row in 1:9){
+  for (col in 1:9){
+    mat.cor[row,col] <- cor(surg[,col.list[row]], surg[,col.list[col]], use = 'complete.obs')
+  }
+}
+rownames(mat.cor) <- c('ODI','SRS','PCS','MCS','Pelvic obiquity','Coronal balance','Pelvic indicence','Sag Balance (lumbar)','Sag balance (total)')
+colnames(mat.cor) <- rownames(mat.cor)
+corrplot.mixed(mat.cor, lower = 'number', upper = 'ellipse', tl.cex = 1, tl.pos = 'lt', main = 'Follow-up correlations')
+
+
