@@ -2,7 +2,7 @@
 title: "Presentation Summary"
 author: "Charles Sheets"
 date: "September 15, 2016"
-output: html_document
+output: github_document
 ---
 
 
